@@ -12,7 +12,7 @@ export const signup= async(req,res)=>{
           
         const hashedPassword=await bcrypt.hash(password,12)
         const newUser=await users.create({name,email,password: hashedPassword})
-        const token=Jwt.sign({email:newUser.email,id:newUser._id},process.env.JWT_SECRET,{expiresIn:"1h"});
+        const token=Jwt.sign({email:newUser.email,id:newUser._id},"test");
         res.status(200).json({result:newUser,token})
 
     }catch(error){
@@ -32,7 +32,7 @@ export const login= async(req,res)=>{
         if(!isPsswordCrt){
             return res.status(404).json({message:"Invalid Crendentials"})
         }
-        const token=Jwt.sign({email:existingUser.email,id:existingUser._id},process.env.JWT_SECRET,{expiresIn:"1h"});
+        const token=Jwt.sign({email:existingUser.email,id:existingUser._id},"test");
         res.status(200).json({result:existingUser,token})
 
     }

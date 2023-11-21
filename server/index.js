@@ -4,6 +4,8 @@ import cors from 'cors';
 import userRoutes from './routes/users.js'
 import questionRoutes from './routes/Questions.js'
 import answerRoutes from './routes/Answers.js'
+import stripe from './routes/Stripe.js'
+import paymentRoute from './routes/paymentRoute.js'
 import dotenv from 'dotenv'
 
 const app = express();
@@ -20,13 +22,14 @@ app.use('/user',userRoutes)
 
 app.use('/questions',questionRoutes)
 app.use('/answer',answerRoutes)
-
+app.use('/stripe',stripe)
+app.use('/payment', paymentRoute);
 const PORT = process.env.PORT || 5000;
 
-const DATABASE_URL = process.env.CONNECTION_URL
+const CONNECTION_URL = process.env.DATABASE_URL;
 
 mongoose
-  .connect(DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     app.listen(PORT, () => {
       console.log(`Server is running at ${PORT}`);
